@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Birthday Surprise</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Amaranth&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+background:linear-gradient(135deg,#ffd6ec,#c8f1ff);
+text-align:center;
+overflow-x:hidden;
+font-family:'Poppins',sans-serif;
+}
+
+audio{display:none;}
+
+/* Floating Emojis */
+.floating{
+position:fixed;
+width:100%;
+height:100%;
+pointer-events:none;
+top:0;
+left:0;
+overflow:hidden;
+z-index:0;
+}
+.float{
+position:absolute;
+animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+0%{transform:translateY(100vh) rotate(0deg);opacity:0}
+50%{opacity:1}
+100%{transform:translateY(-10vh) rotate(360deg);opacity:0}
+}
+
+/* Password */
+#passwordScreen{
+position:fixed;
+width:100%;
+height:100%;
+background:#fff0f7;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+input{
+padding:12px;
+border-radius:20px;
+border:1px solid pink;
+text-align:center;
+}
+button{
+padding:10px 20px;
+border:none;
+border-radius:20px;
+background:#ff8dc7;
+color:white;
+cursor:pointer;
+margin-top:10px;
+font-weight:bold;
+}
+
+/* Pages */
+.page{
+display:none;
+min-height:100vh;
+padding:40px 20px;
+position:relative;
+z-index:1;
+animation:fade 0.8s ease;
+}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+#page1{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:flex-start;
+padding-top:40px;
+font-family:'Amaranth',sans-serif;
+}
+
+#page1 h1{
+position:absolute;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+font-size:50px;
+color:#ff4fa3;
+}
+
+/* ========================= */
+/* REALISTIC CAT CAKE START  */
+/* ========================= */
+
+.cake{
+position:relative;
+margin-top:140px;
+width:280px;
+height:220px;
+background:radial-gradient(circle at 30% 25%, #ffffff 0%, #fdf2f6 40%, #f8dfe8 100%);
+border-radius:150px 150px 80px 80px;
+box-shadow:
+0 20px 40px rgba(0,0,0,0.25),
+inset 0 -10px 20px rgba(255,182,193,0.4),
+inset 0 10px 25px rgba(255,255,255,0.9);
+}
+
+/* Soft Cream Shine */
+.cake::after{
+content:"";
+position:absolute;
+top:30px;
+left:50%;
+transform:translateX(-50%);
+width:180px;
+height:60px;
+background:radial-gradient(circle, rgba(255,255,255,0.8), transparent 70%);
+border-radius:50%;
+}
+
+.ears{
+position:absolute;
+top:-35px; /* fixed placement */
+left:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+padding:0 50px; /* balanced with cake width */
+box-sizing:border-box;
+}
+.ear{
+width:65px;
+height:75px;
+background:linear-gradient(to bottom,#fff,#ffeef5);
+border-radius:50% 50% 10px 10px;
+position:relative;
+box-shadow:0 6px 12px rgba(0,0,0,0.15);
+}
+.ear::after{
+content:"";
+position:absolute;
+top:15px;
+left:50%;
+transform:translateX(-50%);
+width:35px;
+height:35px;
+background:#ffc1dc;
+border-radius:50%;
+}
+
+.face{
+position:absolute;
+top:75px;
+width:100%;
+text-align:center;
+}
+
+.eyes{
+display:flex;
+justify-content:center;
+gap:60px;
+}
+.eye{
+width:18px;
+height:18px;
+background:radial-gradient(circle at 30% 30%, #fff 10%, #000 60%);
+border-radius:50%;
+box-shadow:0 2px 4px rgba(0,0,0,0.2);
+}
+
+.blush{
+width:28px;
+height:15px;
+background:radial-gradient(circle,#ff9ecf,#ff6fb5);
+border-radius:50%;
+opacity:0.85;
+}
+
+.mouth{
+margin-top:8px;
+font-size:20px;
+color:#555;
+}
+
+.whiskers{
+position:absolute;
+top:115px;
+width:100%;
+height:40px;
+}
+
+.whiskers .left,
+.whiskers .right{
+position:absolute;
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+.whiskers .left{
+left:20px;
+}
+
+.whiskers .right{
+right:20px;
+}
+
+.whiskers .left div,
+.whiskers .right div{
+width:60px;
+height:2px;
+background:#bbb;
+}
+
+/* ========================= */
+/* REALISTIC CAT CAKE END    */
+/* ========================= */
+
+/* Candles */
+.candles{
+position:absolute;
+top:-55px;
+width:100%;
+display:flex;
+justify-content:center;
+gap:15px;
+}
+.candle{
+font-size:30px;
+cursor:pointer;
+position:relative;
+}
+.flame{
+position:absolute;
+top:-20px;
+left:50%;
+transform:translateX(-50%);
+font-size:18px;
+}
+
+/* Rest of your original CSS remains unchanged */
+
+/* Surprise bottom */
+#surpriseBox{
+position:absolute;
+bottom:40px;
+left:50%;
+transform:translateX(-50%);
+display:none;
+}
+.polaroid{
+width:280px;
+background:white;
+padding:12px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Message */
+.message{
+max-width:700px;
+margin:20px auto;
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+line-height:1.7;
+white-space:pre-line;
+}
+
+.gallery{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+margin-top:20px;
+}
+.gallery img{
+width:220px;
+border-radius:15px;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.note{
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+max-width:600px;
+margin:30px auto;
+font-style:italic;
+font-size:18px;
+color:#c2185b;
+font-weight:600;
+}
+
+.nextBtn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#6ecfff;
+}
+.backBtn{
+position:fixed;
+bottom:20px;
+left:20px;
+background:#ff8dc7;
+}
+.closeBtn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#ff4fa3;
+}
+
+.closePageText{
+background:white;
+padding:30px;
+border-radius:25px;
+box-shadow:0 15px 35px rgba(0,0,0,0.25);
+display:inline-block;
+margin-top:200px;
+font-size:35px;
+color:#ff1493;
+}
+.closeBackBtn{
+position:fixed;
+bottom:20px;
+left:20px;
+background:#ff8dc7;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c1c4f4b09.mp3?filename=happy-birthday-to-you-piano-version-10777.mp3" type="audio/mpeg">
+</audio>
+
+<div class="floating" id="floating"></div>
+
+<!-- PASSWORD -->
+<div id="passwordScreen">
+<h2>Enter Password💖</h2>
+<input type="password" id="pass">
+<button onclick="checkPass()">Unlock</button>
+</div>
+
+<!-- PAGE 1 -->
+<div id="page1" class="page">
+<h1>HEY BIRTHDAY GIRL</h1>
+
+<div class="cake">
+<div class="ears"><div class="ear"></div><div class="ear"></div></div>
+
+<div class="candles">
+<div class="candle" onclick="blow(1)">🕯️<span class="flame" id="f1">🔥</span></div>
+<div class="candle" onclick="blow(2)">🕯️<span class="flame" id="f2">🔥</span></div>
+<div class="candle" onclick="blow(3)">🕯️<span class="flame" id="f3">🔥</span></div>
+</div>
+
+<div class="face">
+<div class="eyes"><div class="eye"></div><div class="eye"></div></div>
+<div class="eyes"><div class="blush"></div><div class="blush"></div></div>
+<div class="mouth">ᴥ</div>
+</div>
+
+<div class="whiskers">
+  <div class="left">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class="right">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+</div>
+
+<div id="surpriseBox">
+<h2>Happy Birthday Anniii💖</h2>
+<div class="polaroid">
+<img src="surprise.jpg.jpeg" width="100%">
+</div>
+</div>
+
+<button id="toPage2" class="nextBtn" style="display:none;" onclick="goToPage2()">Next ➜</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+<button class="backBtn" onclick="goToPage1()">⬅ Back</button>
+<h2>HAPPY BIRTHDAY ANANYA 🎉</h2>
+
+<!-- Added surprise image above message -->
+<div class="polaroid" style="margin:20px auto;">
+<img src="surprise.jpg.jpeg" width="100%">
+</div>
+
+<div class="message">
+Happy Birthday To my Dearest Sister🐣❤️
+
+I honestly don't know what I did to deserve a best friend like you. You are not just my best friend, you are my sister, my safe place, and my favorite person in this whole world💎💓
+
+These 6-7 years with you feel like a lifetime. We fight almost every day🤣but somehow we can never stay mad at each other. No matter what happens and that's what makes us special🤗
+
+You know all my secrets, my moods, my flaws, everything and still stay. No ego, no distance, no misunderstandings can ever break what we have. That means the world to me🫂💖
+
+You are truly the best gift of my Life. Thank you for being my constant supporter and my happiness, And always remember I'll be there for you whenever you need me.
+
+And I'll never stop troubling you.. Dummiiii🤣
+
+Now Say...1 2 3 HEEE😁❤️
+</div>
+
+<button class="nextBtn" onclick="goToPage3()">Next ➜</button>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="page">
+<button class="backBtn" onclick="goToPage2()">⬅ Back</button>
+<h2>Beautiful Memories 💕</h2>
+
+<div class="gallery">
+<img src="memory1.jpg.jpeg">
+<img src="memory2.jpg.jpeg">
+<img src="memory3.jpg.jpeg">
+</div>
+
+<div class="note">
+Wishing you a lifetime of happiness, joy, peace, health, and success. May your day be as bright as you are ✨
+
+<br><br>
+From Ashiii&lt;3
+</div>
+
+<button class="closeBtn" onclick="goToClose()">Close ✖</button>
+</div>
+
+<!-- CLOSE PAGE -->
+<div id="closePage" class="page">
+<div class="closePageText">
+Enjoy your day, Dummavva 🪷
+</div>
+
+<button class="closeBackBtn" onclick="goToPage3()">⬅ Back</button>
+</div>
+
+<script>
+function checkPass(){
+if(document.getElementById("pass").value==="123hehe"){
+document.getElementById("passwordScreen").style.display="none";
+document.getElementById("page1").style.display="flex";
+
+let music = document.getElementById("bgMusic");
+music.volume = 0.5;
+music.play().catch(()=>{});
+
+}else{
+alert("Wrong Password!");
+}
+}
+
+let blown=0;
+function blow(num){
+document.getElementById("f"+num).style.display="none";
+blown++;
+if(blown===3){
+document.getElementById("surpriseBox").style.display="block";
+document.getElementById("toPage2").style.display="block";
+}
+}
+
+function hideAll(){
+document.getElementById("page1").style.display="none";
+document.getElementById("page2").style.display="none";
+document.getElementById("page3").style.display="none";
+document.getElementById("closePage").style.display="none";
+}
+
+function goToPage1(){ hideAll(); document.getElementById("page1").style.display="flex"; }
+function goToPage2(){ hideAll(); document.getElementById("page2").style.display="block"; }
+function goToPage3(){ hideAll(); document.getElementById("page3").style.display="block"; }
+function goToClose(){ hideAll(); document.getElementById("closePage").style.display="block"; }
+
+/* Floating Emojis */
+const emojis=["💖","🎉","✨","🌟","🎊","💗","🪷","🌻"];
+for(let i=0;i<35;i++){
+let span=document.createElement("span");
+span.className="float";
+span.innerText=emojis[Math.floor(Math.random()*emojis.length)];
+span.style.left=Math.random()*100+"vw";
+span.style.animationDuration=(5+Math.random()*5)+"s";
+span.style.fontSize=(18+Math.random()*20)+"px";
+document.getElementById("floating").appendChild(span);
+}
+</script>
+
+</body>
+</html>
