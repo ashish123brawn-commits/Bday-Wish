@@ -342,7 +342,7 @@ background:#ff8dc7;
 
 <body>
 
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop preload="auto">
 <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_7c1c4f4b09.mp3?filename=happy-birthday-to-you-piano-version-10777.mp3" type="audio/mpeg">
 </audio>
 
@@ -465,7 +465,12 @@ document.getElementById("page1").style.display="flex";
 
 let music = document.getElementById("bgMusic");
 music.volume = 0.5;
-music.play().catch(()=>{});
+
+music.play().then(()=>{
+console.log("Music started");
+}).catch(error=>{
+console.log("Autoplay blocked:", error);
+});
 
 }else{
 alert("Wrong Password!");
