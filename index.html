@@ -331,11 +331,10 @@ font-size:18px;
 
 /* Surprise bottom */
 #surpriseBox{
-position:absolute;
-bottom:40px;
-left:50%;
-transform:translateX(-50%);
+position:relative;
+margin-top:40px;
 display:none;
+text-align:center;
 }
 .polaroid{
 width:280px;
@@ -546,7 +545,7 @@ document.getElementById("passwordScreen").style.display="none";
 document.getElementById("page1").style.display="flex";
 
 let music = document.getElementById("bgMusic");
-music.volume = 0.5;
+music.volume = 0.4;
 
 setTimeout(()=>{
     music.play();
